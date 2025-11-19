@@ -116,12 +116,8 @@ async def translate_text(request: TranslationRequest):
         # Add source language if provided (skip AUTO for auto-detection)
         if request.source_lang and request.source_lang.upper() != "AUTO":
             # DeepL source languages don't use regional variants
-            # Convert EN-US/EN-GB → EN, PT-PT/PT-BR → PT
-            source = request.source_lang.upper()
-            if source.startswith("EN-"):
-                source = "EN"
-            elif source.startswith("PT-"):
-                source = "PT"
+            # Strip regional suffix: EN-US → EN, PT-BR → PT, etc.
+            source = request.source_lang.upper().split("-")[0]
             data["source_lang"] = source
 
         # Make async request to DeepL API
