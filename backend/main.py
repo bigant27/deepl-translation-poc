@@ -102,6 +102,9 @@ async def translate_text(request: TranslationRequest):
     - **source_lang**: Source language code (optional, auto-detect if not provided)
     - **target_lang**: Target language code (required)
     """
+    # Log request for debugging
+    print(f"Translation request: source={request.source_lang}, target={request.target_lang}, text_len={len(request.text)}")
+
     try:
         # Prepare DeepL API request
         data = {
