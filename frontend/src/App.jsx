@@ -1,8 +1,8 @@
 import { useState, useEffect } from 'react'
 
-// API base URL - update for production
-const API_URL = import.meta.env.PROD 
-  ? 'http://localhost:13601' 
+// API base URL - uses nginx proxy in production, direct backend in dev
+const API_URL = import.meta.env.PROD
+  ? '' // Empty string uses same origin, nginx proxies /api/* to backend
   : 'http://localhost:13601'
 
 function App() {
