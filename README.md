@@ -1,52 +1,77 @@
 # DeepL Translation Tool
 
-https://translate.shaily.dev
+[![Live Demo](https://img.shields.io/badge/demo-live-brightgreen)](https://translate.shaily.dev)
+[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
 
-Quick translation tool I built using DeepL's API. Took about 2 hours.
+Quick translation tool using DeepL's API. Built in ~2 hours as a proof-of-concept.
+
+**Live Demo:** https://translate.shaily.dev
+
+## Features
+
+- 26 language pairs with auto-detection
+- Real-time translation
+- Character counter
+- Error handling (rate limits, timeouts, validation)
+- Keyboard shortcut (Ctrl+Enter)
+- Responsive design
 
 ## Stack
 
-Backend is FastAPI with async httpx talking to DeepL. Frontend is React + Vite with Tailwind. Runs in Docker containers behind nginx.
+**Backend:**
+- FastAPI with async httpx
+- Pydantic validation
+- uvicorn ASGI server
+- uv package manager
 
-Used uv instead of pip because it's way faster. Used Yarn for the frontend.
+**Frontend:**
+- React 18
+- Vite
+- Tailwind CSS
+- Yarn
 
-## Running It
+**Deployment:**
+- Docker multi-stage builds
+- nginx reverse proxy
+- SSL/TLS
 
-You need Docker and a DeepL API key (free tier works - grab one at deepl.com/pro-api).
+## Quick Start
+
+Need Docker and a DeepL API key (free tier: deepl.com/pro-api).
 
 ```bash
 git clone https://github.com/SHAILY24/deepl-translation-poc.git
 cd deepl-translation-poc
 cp .env.example .env
-# put your DeepL key in .env
+# Add your DeepL API key to .env
 docker compose up -d
 ```
 
-Frontend runs on :13507, backend API on :13601. API docs at :13601/docs (FastAPI auto-generates them).
+- Frontend: http://localhost:13507
+- Backend API: http://localhost:13601
+- API Docs: http://localhost:13601/docs
 
-## Dev Mode
+## Development
 
-Backend:
+**Backend:**
 ```bash
 cd backend
 uv sync
 uv run uvicorn main:app --reload --port 13601
 ```
 
-Frontend:
+**Frontend:**
 ```bash
 cd frontend
 yarn install
 yarn dev  # runs on :5173
 ```
 
-## How It Works
+## API
 
-POST to `/api/translate` with your text and target language. It hits DeepL's API and returns the translation. Added error handling for their rate limits and timeouts. If you send `source_lang: "AUTO"` it breaks - you have to omit that field entirely for auto-detection (took me a minute to figure that out).
+**POST /api/translate**
 
-Supports 26 languages. Character limit is 50K per request (DeepL's limit).
-
-Example request:
+Request:
 ```json
 {
   "text": "hello world",
@@ -54,7 +79,7 @@ Example request:
 }
 ```
 
-Example response:
+Response:
 ```json
 {
   "translated_text": "hola mundo",
@@ -64,64 +89,86 @@ Example response:
 }
 ```
 
-`GET /api/languages` gives you the full list.
+**GET /api/languages** - List supported languages  
+**GET /health** - Health check
 
-## What's Here
+Note: For auto-detection, omit `source_lang` entirely. Don't send `"AUTO"` - DeepL's API will error.
 
-- Translation with 26 language pairs
-- Auto-detect source language (just don't send source_lang)
-- Character counter in the UI
-- Handles DeepL errors (403 bad key, 456 quota exceeded, timeouts)
-- Press Ctrl+Enter to translate
-- Works on mobile
+## Architecture
 
-## What's Not Here
+```
+User → nginx (SSL) → Frontend Container (React) → Backend Container (FastAPI) → DeepL API
+```
 
-This was a 2 hour build. If I was doing this for real I'd add:
+- Frontend: Multi-stage Docker build (Node.js build, nginx serve)
+- Backend: Python container with uv
+- Networking: Internal Docker bridge network
+- Security: CORS whitelist, input validation, environment variables
 
-- Login system
-- Save translation history in Postgres
+## What's Included
+
+- Full translation workflow
+- Error handling for API failures
+- Docker deployment setup
+- Production nginx config
+- Clean, documented code
+
+## What's Missing
+
+Built in 2 hours. A production version would add:
+
+- User authentication
+- Translation history (PostgreSQL)
 - Per-user rate limiting
-- Tests
-- CI/CD
-- Better error messages
-- Maybe document translation
+- Test suite
+- CI/CD pipeline
+- Advanced error messages
+- Document translation
 
-## Why These Choices
+## Related Projects
 
-**FastAPI** - async support out of the box, Pydantic validation, auto API docs. Works well with external APIs.
+**API Integration Experience:**
 
-**React + Vite** - Vite is faster than Create React App. Tailwind because I can build UIs quickly without writing CSS.
+At PureHD I built an API gateway handling 15+ vendor APIs (QuickBooks, Stripe, UPS, FedEx, Avalara). Processes 100K+ calls/day. Solved token refresh, rate limiting, retry logic with backoff.
 
-**Docker** - easier to deploy. Frontend is a multi-stage build (Node for building, nginx for serving).
+Also built [shelf.shaily.dev](https://shelf.shaily.dev) - Stripe payment integration with webhooks and idempotency keys.
 
-## Related Work
+DeepL integration uses the same patterns: async HTTP, proper error handling, rate limit awareness.
 
-At PureHD I built an API gateway that handles QuickBooks, Stripe, UPS, FedEx, Avalara - basically 15+ vendor APIs. Does 100K+ calls per day. Had to solve token refresh, rate limiting, retry with backoff, all that stuff.
-
-Also built shelf.shaily.dev which uses Stripe's API for payments. Had to deal with webhooks and idempotency keys to prevent duplicate charges.
-
-DeepL is simpler than those but same concepts - async HTTP, proper error handling, don't hammer their rate limits.
-
-## File Structure
+## Project Structure
 
 ```
 backend/
   main.py           # FastAPI routes
-  Dockerfile        
+  Dockerfile        # Backend container
+  pyproject.toml    # uv dependencies
 
 frontend/
-  src/App.jsx       # main component
-  Dockerfile        # multi-stage: build with node, serve with nginx
+  src/App.jsx       # Main React component
+  Dockerfile        # Multi-stage build
+  package.json      # Yarn dependencies
 
-docker-compose.yml  # orchestrates both containers
+docker-compose.yml  # Container orchestration
 ```
 
-Backend uses uv.lock instead of requirements.txt. Frontend has yarn.lock.
+## License
 
----
+MIT License - see [LICENSE](LICENSE) file.
+
+## Contact
 
 Shaily Sharma  
 shailysharmawork@gmail.com
 
-More stuff: https://portfolio.shaily.dev
+**Portfolio:** https://portfolio.shaily.dev  
+**GitHub:** https://github.com/SHAILY24
+
+## Tech Choices
+
+**FastAPI** - Async support, Pydantic validation, auto-generated API docs.
+
+**React + Vite** - Fast dev experience, optimized builds.
+
+**Docker** - Consistent deployment across environments.
+
+**Tailwind** - Rapid UI development without custom CSS.
