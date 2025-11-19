@@ -46,14 +46,17 @@ POST to `/api/translate` with your text and target language. It hits DeepL's API
 
 Supports 26 languages. Character limit is 50K per request (DeepL's limit).
 
+Example request:
 ```json
-POST /api/translate
 {
   "text": "hello world",
   "target_lang": "ES"
 }
+```
 
-→ {
+Example response:
+```json
+{
   "translated_text": "hola mundo",
   "source_lang": "EN",
   "target_lang": "ES",
